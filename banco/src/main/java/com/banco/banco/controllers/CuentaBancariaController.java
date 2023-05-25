@@ -31,6 +31,7 @@ public class CuentaBancariaController {
 	@Autowired
 	private UsuarioServicel usuarioServicel;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private OperacionBancariaServicel operacionBancariaServicel;
 

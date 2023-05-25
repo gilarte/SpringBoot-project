@@ -13,23 +13,25 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Order(101)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-                .antMatchers("/registration").permitAll()
-                .anyRequest().authenticated()
-                .and()
-            .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/dashboard")
-                .permitAll()
-                .and()
-            .logout()
-                .logoutUrl("/logout")
-                .permitAll();
-    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+	    http
+	    	.authorizeRequests()
+	    	.antMatchers("/registration", "/login").permitAll()
+	    	.antMatchers("/dashboard").authenticated()
+	    	.anyRequest().authenticated()
+	    	.and()
+	    	.formLogin()
+	    	.loginPage("/login")
+	    	.defaultSuccessUrl("/dashboard")
+	    	.permitAll()
+	    	.and()
+	    	.logout()
+        	.logoutUrl("/logout")
+        	.permitAll();
+	}
 
+    
     
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

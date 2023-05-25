@@ -32,10 +32,12 @@ public class UsuarioController {
         return "registration";
     }
 
+	/*
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
     }
+*/
 
 	@Autowired
 	private UsuarioServicel usuarioServiceI;
@@ -43,6 +45,7 @@ public class UsuarioController {
 	@Autowired
 	private CuentaBancariaServicel cuentaBancariaServicel;
 	
+	@SuppressWarnings("unused")
 	@Autowired
 	private OperacionBancariaServicel operacionBancariaServicel;
 
@@ -183,6 +186,7 @@ public class UsuarioController {
 	public String mostrarCuentasBancariasOperacionesBancarias(@RequestParam String numeroCuenta, Model model) {
 
 		final CuentaBancaria cuentaBancaria = cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta);
+		@SuppressWarnings("unused")
 		List<OperacionBancaria> operacionesBancariasElegibles = cuentaBancaria.getOperacionesCuentaBancaria();
 		
 		// Carga de datos al modelo

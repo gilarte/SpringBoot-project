@@ -17,7 +17,7 @@ import com.banco.banco.services.UsuarioServicel;
 
 
 /**
- * Controlador principal de vistas.
+ * Controlador de las vistas
  *
  */
 @Controller
@@ -40,10 +40,6 @@ public class SystemController {
 		return "index";
 	}
 
-	/*
-	 * EMPLEADOS
-	 */
-
 	// Listado
 	@GetMapping("/usuariosView")
 	public String redirectToUsuarioController() {
@@ -55,10 +51,6 @@ public class SystemController {
 	public String redirectToNewUsuarioTemplate() {
 		return "usuarioInsertar";
 	}
-
-	/*
-	 * PROYECTOS
-	 */
 
 	// Listado
 	@GetMapping("/cuentasBancariasView")
@@ -79,6 +71,7 @@ public class SystemController {
 	}
 	
 	// Insertar
+		@SuppressWarnings("static-access")
 		@GetMapping("/newOperacionBancariaView")
 		public String redirectToNewOperacionBancariaTemplate(@RequestParam String numeroCuenta, Model model) {
 			final CuentaBancaria cuentaBancaria = cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta);
