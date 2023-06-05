@@ -53,8 +53,7 @@ public class OperacionBancariaController {
 	public String mostrarProyectoEmpleados(@RequestParam String numeroCuenta, Model model) {
 		final CuentaBancaria cuentaBancaria = cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta);
 		
-		List<OperacionBancaria> operacionesBancarias = operacionBancariaServicel.obtenerOperacionesBancarias();
-		operacionesBancarias.removeAll(cuentaBancaria.getOperacionesCuentaBancaria());
+		List<OperacionBancaria> operacionesBancarias = operacionBancariaServicel.obtenerPorNumeroCuentas(numeroCuenta);
 		
 		// Carga de datos al modelo
 		model.addAttribute("cuentaBancaria", cuentaBancaria);
