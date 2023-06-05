@@ -64,6 +64,8 @@ public class OperacionBancariaController {
 	}
 	
 	
+	
+	
 	@PostMapping("/actAddOperacionBancaria")
 	private String insertarProyecto(@Valid @ModelAttribute OperacionBancaria newOperacionBancaria, @RequestParam("usuario") String usuarioNIF, BindingResult result) throws Exception {
 		if (result.hasErrors()) {

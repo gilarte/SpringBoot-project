@@ -13,6 +13,7 @@ import com.banco.banco.models.Usuario;
  */
 public interface UsuarioServicel {
 	
+	
 	public List<Usuario> obtenerUsuarios();
 
 	public Usuario obtenerPorNIF(String NIF);

@@ -1,4 +1,4 @@
-package com.banco.banco.security;
+package com.banco.banco;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -40,5 +40,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("admin").password("{noop}admin").roles("ADMIN");
     }
 }
-
 

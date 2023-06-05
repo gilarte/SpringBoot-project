@@ -63,6 +63,12 @@ public class SystemController {
 	public String redirectToNewCuentaBancariaTemplate() {
 		return "cuentaBancariaInsertar";
 	}
+	
+	// Insertar
+	@GetMapping("/newOperacionBancariaInsert")
+	public String redirectToNewOperacionBancariaTemplate() {
+		return "operacionBancariaInsertar";
+	}
 
 	// Listado
 	@GetMapping("/operacionesBancariasView")

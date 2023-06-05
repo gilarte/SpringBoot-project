@@ -43,4 +43,3 @@ public class RegistroController {
         return "redirect:/exito";
     }
 }
-

@@ -54,9 +54,7 @@ public class OperacionBancaria  implements Serializable{
 	
 	public enum TipoOperacion {
 		Ingresar,
-		Retirar,
-		RealizarBizum,
-		RecibirBizum
+		Retirar
 	}
 
 	public Long getCodigoOperacion() {
