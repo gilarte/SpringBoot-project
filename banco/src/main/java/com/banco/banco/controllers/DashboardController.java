@@ -6,6 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class DashboardController {
     
+	/**
+	 * Mapea la ruta /dashboard y devuelve la vista correspondiente
+	 * @return
+	 */
     @GetMapping("/dashboard")
     public String LoginOk() {
         return "dashboard";

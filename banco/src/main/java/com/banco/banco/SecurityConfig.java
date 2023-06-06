@@ -13,6 +13,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Order(101)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	/**
+     * Configura la seguridad HTTP.
+     *
+     * @param http el objeto HttpSecurity para configurar
+     * @throws Exception si ocurre algún error durante la configuración
+     */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 	    http
@@ -32,7 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
     
-    
+	/**
+     * Configura la autenticación.
+     *
+     * @param auth el objeto AuthenticationManagerBuilder para configurar
+     * @throws Exception si ocurre algún error durante la configuración
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth

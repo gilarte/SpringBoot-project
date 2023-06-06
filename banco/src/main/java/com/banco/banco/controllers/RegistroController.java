@@ -23,13 +23,23 @@ public class RegistroController {
         this.usuarioRepository = usuarioRepository;
     }
     
+    /**
+     * Muestra el formulario de registro.
+     * @param model El modelo de la vista.
+     * @return La vista "registration" con el formulario de registro.
+     */
     @GetMapping("/registro")
     public String mostrarFormularioRegistro(Model model) {
         model.addAttribute("usuario", new Usuario()); // Agregar el objeto Usuario al modelo
         return "registration";
     }
 
-
+    /**
+     * Registra un nuevo usuario.
+     * @param usuario El objeto Usuario que se va a registrar.
+     * @param result Los resultados de la validación del formulario.
+     * @return Redirige a la página de éxito o a una acción adicional después de registrar al usuario.
+     */
     @PostMapping("/registro")
     public String registrarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult result) {
         if (result.hasErrors()) {

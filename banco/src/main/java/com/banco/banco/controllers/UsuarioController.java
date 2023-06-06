@@ -49,12 +49,22 @@ public class UsuarioController {
 	@Autowired
 	private OperacionBancariaServicel operacionBancariaServicel;
 
+	/**
+	 * Muestra la lista de usuarios.
+	 * @param model El modelo de la vista.
+	 * @return La vista "usuario" con la lista de usuarios.
+	 */
 	@RequestMapping("/home")
 	@ResponseBody
 	public String home() {
 		return "hello world";
 	}
 
+	/**
+	 * Muestra la lista de usuarios.
+	 * @param model El modelo de la vista.
+	 * @return La vista "usuario" con la lista de usuarios.
+	 */
 	@GetMapping("/showUsuariosView")
 	public String mostrarUsuarios(Model model) {
 		final List<Usuario> listaUsuarios = usuarioServiceI.obtenerUsuarios();
@@ -63,6 +73,12 @@ public class UsuarioController {
 		return "usuario";
 	}
 
+	/**
+	 * Muestra la vista para modificar un usuario específico.
+	 * @param usuarioNif El NIF del usuario a modificar.
+	 * @param model El modelo de la vista.
+	 * @return La vista "usuarioModificar" con los datos del usuario a modificar.
+	 */
 	@GetMapping("/showUsuarioMod")
 	public String mostrarModUsuario(@RequestParam String usuarioNif, Model model) {
 
@@ -75,6 +91,12 @@ public class UsuarioController {
 		return "usuarioModificar";
 	}
 
+	/**
+	 * Muestra la vista de cuentas bancarias de un usuario específico.
+	 * @param usuarioNif El NIF del usuario.
+	 * @param model El modelo de la vista.
+	 * @return La vista "usuarioCuentasBancarias" con las cuentas bancarias del usuario.
+	 */
 	@GetMapping("/showUsuarioCuentasBancarias")
 	public String mostrarUsuarioCuentasBancarias(@RequestParam String usuarioNif, Model model) {
 
@@ -90,6 +112,13 @@ public class UsuarioController {
 		return "usuarioCuentasBancarias";
 	}
 
+	/**
+	 * Procesa el formulario de búsqueda de usuarios.
+	 * @param searchedUsuario El usuario a buscar.
+	 * @param model El modelo de la vista.
+	 * @return La vista "usuario" con la lista de usuarios encontrados.
+	 * @throws Exception Si no se proporciona al menos un parámetro de búsqueda.
+	 */
 	@PostMapping("/actSearchUsuario")
 	public String submitBuscarEmpleadoForm(@ModelAttribute Usuario searchedUsuario, Model model) throws Exception {
 		List<Usuario> listaUsuarios = new ArrayList<>();
@@ -113,6 +142,13 @@ public class UsuarioController {
 		return "usuario";
 	}
 
+	/**
+	 * Procesa el formulario para insertar un nuevo usuario.
+	 * @param newUsuario El nuevo usuario a insertar.
+	 * @param result El resultado de la validación.
+	 * @return La vista "redirect:showUsuariosView" si el formulario se procesa correctamente.
+	 * @throws Exception Si hay errores de validación en los parámetros del usuario.
+	 */
 	@PostMapping("/actAddUsuario")
 	private String insertarUsuario(@Valid @ModelAttribute Usuario newUsuario, BindingResult result) throws Exception {
 		if (result.hasErrors()) {
@@ -125,6 +161,13 @@ public class UsuarioController {
 		return "redirect:showUsuariosView";
 	}
 
+	/**
+	 * Procesa el formulario para modificar un usuario existente.
+	 * @param newUsuario El usuario modificado.
+	 * @param result El resultado de la validación.
+	 * @return La vista "redirect:showUsuariosView" si el formulario se procesa correctamente.
+	 * @throws Exception Si hay errores de validación en los parámetros del usuario o si no se encuentra el usuario a modificar.
+	 */
 	@PostMapping("/actModUsuario")
 	private String modificarUsuario(@Valid @ModelAttribute Usuario newUsuario, BindingResult result) throws Exception {
 		Usuario usuarioToMod = usuarioServiceI.obtenerPorNIF(newUsuario.getNIF());
@@ -149,6 +192,12 @@ public class UsuarioController {
 		return "redirect:showUsuariosView";
 	}
 
+	/**
+	 * Elimina un usuario existente.
+	 * @param usuarioNif El NIF del usuario a eliminar.
+	 * @param model El modelo.
+	 * @return La vista "redirect:showUsuariosView".
+	 */
 	@GetMapping("/actDropUsuario")
 	public String eliminarUsuario(@RequestParam String usuarioNif, Model model) {
 
@@ -158,7 +207,14 @@ public class UsuarioController {
 		return "redirect:showUsuariosView";
 
 	}
-
+	
+	/**
+	 * Elimina una cuenta bancaria de un usuario.
+	 * @param usuarioNIF El NIF del usuario.
+	 * @param numeroCuenta El número de cuenta bancaria.
+	 * @param model El modelo.
+	 * @return La vista "redirect:showUsuarioCuentasBancarias?usuarioNif=" + usuario.getNIF().
+	 */
 	@GetMapping("/actDropCuentaBancariaUsuario")
 	public String eliminarProyectoDeEmpleado(@RequestParam String usuarioNIF, @RequestParam String numeroCuenta, Model model) {
 		Usuario usuario = usuarioServiceI.obtenerPorNIF(usuarioNIF);
@@ -169,6 +225,13 @@ public class UsuarioController {
 		return "redirect:showUsuarioCuentasBancarias?usuarioNif=" + usuario.getNIF();
 	}
 
+	/**
+	 * Agrega una cuenta bancaria a un usuario.
+	 * @param usuarioNif El NIF del usuario.
+	 * @param numeroCuenta El número de cuenta bancaria.
+	 * @param model El modelo.
+	 * @return La vista "redirect:showUsuarioCuentasBancarias?usuarioNif=" + usuario.getNIF().
+	 */
 	@GetMapping("/actAddCuentaBancariaUsuario")
 	public String insertarProyectoDeEmpleado(@RequestParam String usuarioNif, @RequestParam String numeroCuenta,
 			Model model) {
@@ -182,6 +245,12 @@ public class UsuarioController {
 		return "redirect:showUsuarioCuentasBancarias?usuarioNif=" + usuario.getNIF();
 	}
 	
+	/**
+	 * Muestra las operaciones bancarias asociadas a una cuenta bancaria.
+	 * @param numeroCuenta El número de cuenta bancaria.
+	 * @param model El modelo.
+	 * @return La vista "cuentaBancariaOperacionBancaria".
+	 */
 	@GetMapping("/showCuentaBancariaOperacionesBancarias")
 	public String mostrarCuentasBancariasOperacionesBancarias(@RequestParam String numeroCuenta, Model model) {
 

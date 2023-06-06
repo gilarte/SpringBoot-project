@@ -12,14 +12,28 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @SpringBootApplication
 public class BancoApplication {
 
+	/**
+     * Punto de entrada principal de la aplicación.
+     *
+     * @param args los argumentos de la línea de comandos
+     */
 	public static void main(String[] args) {
 		SpringApplication.run(BancoApplication.class, args);
 	}
 	
+	/**
+     * Configuración de seguridad web.
+     */
 	@Configuration
 	@EnableWebSecurity
 	public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+		/**
+         * Configura la seguridad HTTP.
+         *
+         * @param http el objeto HttpSecurity para configurar
+         * @throws Exception si ocurre algún error durante la configuración
+         */
 	    @Override
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http

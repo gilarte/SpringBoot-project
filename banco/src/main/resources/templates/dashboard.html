@@ -1,1 +1,56 @@
-<h1>LOGIN EXITO</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco Turkticaret</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      padding-top: 60px;
+    }
+    .jumbotron {
+      background-color: #f0f0fa;
+    }
+  </style>
+</head>
+<body>
+	<!-- HEAD COMUN -->
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="/">Banco Turkticaret</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard">Inicio</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/showCuentasBancariasView">Cuentas bancarias</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/showCuentasBancariasOperacionesView">Operaciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/">log out</a>
+        </li>
+      </ul>
+    </div>
+  </nav><br><br><br>
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1 class="display-4">Bienvenido al Banco Turkticaret</h1>
+      <p class="lead">¡Has inciado sesión con éxito!</p>
+      <hr class="my-4">
+      <p>Actualmente, estamos trabajando en el desarrollo de esta vista para cargar los datos personales del usuario logueado</p>
+       <a class="btn btn-primary btn-lg" href="/" role="button">Cerrar sesión</a>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
