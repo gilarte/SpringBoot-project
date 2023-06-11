@@ -171,6 +171,7 @@ public class CuentaBancariaController {
 		CuentaBancaria cuentaBancariaToMod = cuentaBancariaServicel.obtenerPorNumeroCuenta(newCuentaBancaria.getNumeroCuenta());
 		cuentaBancariaToMod.setSaldo(newCuentaBancaria.getSaldo());
 		cuentaBancariaToMod.setFechaCreacion(newCuentaBancaria.getFechaCreacion());
+		newCuentaBancaria.setUsuarios(cuentaBancariaToMod.getUsuarios());
 		if (result.hasErrors()) {
 			throw new Exception("Parámetros de cuenta bancaria erróneos");
 		} else {
