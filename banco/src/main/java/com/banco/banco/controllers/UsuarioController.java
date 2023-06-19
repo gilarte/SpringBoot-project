@@ -78,12 +78,12 @@ public class UsuarioController {
 	 * @param model El modelo de la vista.
 	 * @return La vista "usuario" con la lista de usuarios.
 	 */
-	@GetMapping("/showUsuariosView")
+	@GetMapping("/secureUsers")
 	public String mostrarUsuarios(Model model) {
 		final List<Usuario> listaUsuarios = usuarioServiceI.obtenerUsuarios();
 		model.addAttribute("usuariosListView", listaUsuarios);
 
-		return "usuario";
+		return "secureUsers";
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class UsuarioController {
 		// Eliminación de empleado
 		usuarioServiceI.eliminarUsuario(usuarioServiceI.obtenerPorNIF(usuarioNif));
 
-		return "redirect:showUsuariosView";
+		return "redirect:secureUsers";
 
 	}
 	

@@ -64,7 +64,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http
 	    .authorizeRequests()
 	        .antMatchers("/", "/registro", "/login", "/exito").permitAll()
-	        .antMatchers("/secure", "showCuentasBancariasViewAdmin").hasAuthority("ROLE_ADMIN")
+	        .antMatchers("/secure", "/showCuentasBancariasViewAdmin", "/secureCuentas", "/secureCuentasIntegrantes", "/secureUsers",
+	        		"/showCuentaBancariaModAdmin", "/showCuentaBancariaUsuariosAdmin", "/actAddCuentaBancariaAdmin", "/actDropCuentaBancariaAdmin", 
+	        		"/cuentasBancariasViewAdmin", "/newCuentaBancariaViewAdmin", "/newCuentaBancariaViewAdmin", "/operacionesBancariasViewAdmin", 
+	        		"/newOperacionBancariaViewAdmin", "/showCuentasBancariasOperacionesViewAdmin", "/showOperacionBancariaCuentasBancariasAdmin", 
+	        		"/actAddOperacionBancariaAdmin").hasAuthority("ROLE_ADMIN")
 	        .anyRequest().authenticated()
 	        .and()
 	    .formLogin()
