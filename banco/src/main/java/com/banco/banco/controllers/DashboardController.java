@@ -14,4 +14,9 @@ public class DashboardController {
     public String LoginOk() {
         return "dashboard";
     }
+    
+    @GetMapping("/secure")
+    public String admin() {
+        return "secure";
+    }
 }
