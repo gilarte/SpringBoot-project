@@ -18,7 +18,13 @@ public class CuentaBancariaServiceImpl implements CuentaBancariaServicel{
 
 	@Autowired 
 	CuentaBancariaRepo cuentaBancariaRepository;
-
+	/*
+	public List<CuentaBancaria> getCuentasBancariasPorUsuario(String nif) {
+        return cuentaBancariaRepository.findCuentasBancariasByUsuario(nif);
+    }
+/*
+ 
+ 
 	/**
      * Obtiene todas las cuentas bancarias.
      *
@@ -28,6 +34,8 @@ public class CuentaBancariaServiceImpl implements CuentaBancariaServicel{
 	public List<CuentaBancaria> obtenerCuentasBancarias() {
 		return cuentaBancariaRepository.findAll();
 	}
+	
+	
 
 	/**
      * Obtiene una cuenta bancaria por su número de cuenta.
@@ -94,6 +102,14 @@ public class CuentaBancariaServiceImpl implements CuentaBancariaServicel{
 	public void eliminarCunetaBancaria(CuentaBancaria cuentaBancaria) {
 		cuentaBancariaRepository.delete(cuentaBancaria);
 		
+	}
+
+
+
+	@Override
+	public List<CuentaBancaria> findAllByUsuariosNIF(String nif) {
+		// TODO Auto-generated method stub
+		return cuentaBancariaRepository.findAllByUsuariosNIF(nif);
 	}
 
 }

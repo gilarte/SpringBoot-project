@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.banco.banco.models.CuentaBancaria;
 
@@ -45,4 +47,10 @@ public interface CuentaBancariaRepo extends JpaRepository<CuentaBancaria, String
      * @return Una lista de cuentas bancarias que tienen el número de cuenta y fecha de creación especificados.
      */
 	List<CuentaBancaria> findByNumeroCuentaAndFechaCreacion(String numeroCuenta, Date fechaCreacion);
+	/*
+	@Query("SELECT cb FROM CuentaBancaria cb JOIN cb.usuarios u WHERE u.nif = :nif")
+    List<CuentaBancaria> findByUserNif(String nif);
+*/
+    List<CuentaBancaria> findAllByUsuariosNIF(String nif);
+
 }

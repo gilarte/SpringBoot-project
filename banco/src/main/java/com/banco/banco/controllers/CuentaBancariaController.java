@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.banco.banco.models.CuentaBancaria;
 import com.banco.banco.models.Usuario;
 import com.banco.banco.services.CuentaBancariaServicel;
+import com.banco.banco.services.JpaUserDetailsService;
 import com.banco.banco.services.OperacionBancariaServicel;
 import com.banco.banco.services.UsuarioServicel;
 
@@ -27,12 +31,16 @@ import com.banco.banco.services.UsuarioServicel;
  */
 @Controller
 public class CuentaBancariaController {
+	
+	private Logger logger = LoggerFactory.getLogger(JpaUserDetailsService.class);	
 
 	@Autowired
 	private CuentaBancariaServicel cuentaBancariaServicel;
 
 	@Autowired
 	private UsuarioServicel usuarioServicel;
+	
+	
 	
 	@SuppressWarnings("unused")
 	@Autowired
@@ -55,8 +63,19 @@ public class CuentaBancariaController {
 	 */
 	@GetMapping("/showCuentasBancariasView")
 	public String mostrarCuentasBancarias(Model model) {
+		
+		final List<CuentaBancaria> listaCuentasBancarias = cuentaBancariaServicel.findAllByUsuariosNIF(JpaUserDetailsService.AuthNif);
+		model.addAttribute("cuentasBancariasListView", listaCuentasBancarias);
+		logger.info("Este es el nif logueado: "+JpaUserDetailsService.AuthNif);
+
+		return "cuentaBancaria";
+	}
+	@GetMapping("/showCuentasBancariasViewAdmin")
+	public String mostrarCuentasBancariasAdmin(Model model) {
+		
 		final List<CuentaBancaria> listaCuentasBancarias = cuentaBancariaServicel.obtenerCuentasBancarias();
 		model.addAttribute("cuentasBancariasListView", listaCuentasBancarias);
+		logger.info("Este es el nif logueado: "+JpaUserDetailsService.AuthNif);
 
 		return "cuentaBancaria";
 	}
@@ -139,8 +158,12 @@ public class CuentaBancariaController {
 		if (result.hasErrors()) {
 			throw new Exception("Parámetros de proyecto erróneos");
 		} else {
+			//añadimos a esa nueva cuenta el usuario que la ha creado
+			List<Usuario> aux = new ArrayList<>();
+			aux.add(usuarioServicel.obtenerPorNIF(JpaUserDetailsService.AuthNif));
+			newCuentaBancaria.setUsuarios(aux);
 
-			// Se añade el nuevo proyecto
+			// Se añade la nueva cuenta
 			cuentaBancariaServicel.insertarCuentaBancaria(newCuentaBancaria);
 		}
 		return "redirect:showCuentasBancariasView";

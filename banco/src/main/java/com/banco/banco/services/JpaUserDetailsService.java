@@ -21,6 +21,7 @@ import com.banco.banco.models.Usuario;
 @Service("jpaUserDetailsService")
 public class JpaUserDetailsService implements UserDetailsService{
 
+	public static String AuthNif="";
 	@Autowired
 	private UsuarioServicel usuarioDao;
 	
@@ -30,6 +31,7 @@ public class JpaUserDetailsService implements UserDetailsService{
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String nombre) throws UsernameNotFoundException {
 		logger.info(nombre);
+		AuthNif = nombre;
         Usuario usuario = usuarioDao.obtenerPorNIF(nombre);
         
         if(usuario == null) {

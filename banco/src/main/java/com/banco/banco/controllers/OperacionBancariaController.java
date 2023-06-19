@@ -19,6 +19,7 @@ import com.banco.banco.models.CuentaBancaria;
 import com.banco.banco.models.OperacionBancaria;
 import com.banco.banco.models.OperacionBancaria.TipoOperacion;
 import com.banco.banco.services.CuentaBancariaServicel;
+import com.banco.banco.services.JpaUserDetailsService;
 import com.banco.banco.services.OperacionBancariaServicel;
 import com.banco.banco.services.UsuarioServicel;
 
@@ -52,7 +53,7 @@ public class OperacionBancariaController {
 	 */
 	@GetMapping("/showCuentasBancariasOperacionesView")
 	public String mostrarCuentasBancarias(Model model) {
-		final List<CuentaBancaria> listaCuentasBancarias = cuentaBancariaServicel.obtenerCuentasBancarias();
+		final List<CuentaBancaria> listaCuentasBancarias = cuentaBancariaServicel.findAllByUsuariosNIF(JpaUserDetailsService.AuthNif);
 		model.addAttribute("cuentasBancariasListView", listaCuentasBancarias);
 
 		return "operacionBancaria";

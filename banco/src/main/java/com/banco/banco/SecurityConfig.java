@@ -40,11 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		/*.antMatchers("/form/**").hasAnyRole("ADMIN")*/
 		/*.antMatchers("/eliminar/**").hasAnyRole("ADMIN")*/
 		/*.antMatchers("/factura/**").hasAnyRole("ADMIN")*/
-
+/*
 		http.
 		authorizeRequests()
         .antMatchers("/", "/registro", "/login", "/exito").permitAll()
-        // otras configuraciones de autorización
+        .antMatchers("/secure").hasAuthority("ROLE_ADMIN") // Agrega esta línea para restringir el acceso a "/secure" solo a usuarios con el rol de administrador
         .anyRequest().authenticated()
         .and()
         .formLogin()
@@ -60,6 +60,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         .logout()
             .logoutUrl("/logout")
             .permitAll();
+*/
+		http
+	    .authorizeRequests()
+	        .antMatchers("/", "/registro", "/login", "/exito").permitAll()
+	        .antMatchers("/secure", "showCuentasBancariasViewAdmin").hasAuthority("ROLE_ADMIN")
+	        .anyRequest().authenticated()
+	        .and()
+	    .formLogin()
+	        .successHandler(successHandler)
+	        .loginPage("/login")
+	        .defaultSuccessUrl("/dashboard")
+	        .permitAll()
+	        .and()
+	    .logout().permitAll()
+	        .and()
+	    .exceptionHandling().accessDeniedPage("/error")
+	        .and()
+	    .logout()
+	        .logoutUrl("/logout")
+	        .permitAll();
 
 	}
 

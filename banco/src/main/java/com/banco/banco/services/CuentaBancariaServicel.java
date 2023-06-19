@@ -10,6 +10,10 @@ import com.banco.banco.models.CuentaBancaria;
  * Proporciona métodos para gestionar las cuentas bancarias.
  */
 public interface CuentaBancariaServicel {
+    List<CuentaBancaria> findAllByUsuariosNIF(String nif);
+
+	
+	//public List<CuentaBancaria> getCuentasBancariasPorUsuario(String nif);
 
 	/**
 	 * Obtiene todas las cuentas bancarias.
