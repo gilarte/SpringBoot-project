@@ -1,8 +1,12 @@
 package com.banco.banco.controllers;
 
+import java.util.Collections;
+
 import javax.validation.Valid;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,17 +14,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.banco.banco.models.Role;
 import com.banco.banco.models.Usuario;
 import com.banco.banco.repositories.UsuarioRepo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 @Controller
 public class RegistroController {
 
-    private final UsuarioRepo usuarioRepository;
+	private static final Logger logger = LoggerFactory.getLogger(RegistroController.class);
+	private final UsuarioRepo usuarioRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public RegistroController(UsuarioRepo usuarioRepository) {
+    public RegistroController(UsuarioRepo usuarioRepository, BCryptPasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
     
     /**
@@ -42,10 +52,22 @@ public class RegistroController {
      */
     @PostMapping("/registro")
     public String registrarUsuario(@ModelAttribute("usuario") @Valid Usuario usuario, BindingResult result) {
+        logger.info("Valor de passwordEncoder: " + passwordEncoder);
         if (result.hasErrors()) {
             return "registration";
         }
+        System.out.println("Valor de passwordEncoder: " + passwordEncoder);
 
+     // Encriptar la contraseña antes de guardarla
+        String passwordEncriptada = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(passwordEncriptada);
+        
+     // Crear el objeto Role para el rol "ROLE_USER"
+        Role roleUser = new Role();
+        roleUser.setAuthority("ROLE_USER");
+
+        // Asignar el rol "ROLE_USER" al nuevo usuario
+        usuario.setRoles(Collections.singletonList(roleUser));
         // Guardar el nuevo usuario en la base de datos
         usuarioRepository.save(usuario);
 

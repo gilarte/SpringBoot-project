@@ -6,6 +6,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,6 +32,17 @@ public class UsuarioController {
 	@GetMapping("/registration")
     public String showRegistrationForm() {
         return "registration";
+    }
+	
+	@GetMapping("/user")
+    public String getUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails != null) {
+            // El usuario ha sido autenticado correctamente
+            return "Usuario autenticado: " + userDetails.getUsername();
+        } else {
+            // El usuario no ha sido autenticado
+            return "Usuario no autenticado";
+        }
     }
 
 	/*

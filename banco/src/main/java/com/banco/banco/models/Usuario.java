@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,6 +24,7 @@ import javax.persistence.JoinColumn;
 
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -70,7 +73,7 @@ public class Usuario implements Serializable{
 	@Column(name = "Direccion", nullable = false)
 	private String direccion;
 	
-	@Size(max = 50)
+	@Size(min = 1)
 	@Column(name = "password", nullable = false)
 	private String password;
 
@@ -85,6 +88,10 @@ public class Usuario implements Serializable{
 		joinColumns = @JoinColumn(name = "usuario_NIF"), 
 		inverseJoinColumns = @JoinColumn(name = "cuentaBancaria_numeroCuenta"))
 	private List<CuentaBancaria> cuentasBancarias;
+	
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "NIF")
+	private List<Role> roles;
 
 	public String getNIF() {
 		return NIF;
@@ -155,6 +162,47 @@ public class Usuario implements Serializable{
 	}
 
 	public void setPassword(String password) {
+		this.password = password;
+	}
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Usuario(
+			@Size(max = 9, min = 9, message = "El NIF tiene que tener 9 caracteres") @NotEmpty(message = "El NIF es obligatorio") @Pattern(regexp = "[0-9]{8}[A-Z]{1}", message = "NIF no es válido") String nIF,
+			@NotEmpty(message = "El nombre es obligatorio") @Size(min = 4, max = 12, message = "el tamaño debe ser entre 4 y 12") String nombre,
+			@NotEmpty(message = "El apellido es obligatorio") @Size(max = 50) String apellidos,
+			@NotEmpty(message = "El numero es obligatorio") String telefono,
+			@Size(max = 50) @NotEmpty(message = "El email es obligatorio") @Email(message = "dirección invalida") String email,
+			@Size(max = 50) String direccion, @Size(max = 50) String password,
+			@NotNull(message = "la fecha de nacimiento es obligatoria") Date anyoNacimiento,
+			List<CuentaBancaria> cuentasBancarias, List<Role> roles) {
+		super();
+		NIF = nIF;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.telefono = telefono;
+		this.email = email;
+		this.direccion = direccion;
+		this.password = password;
+		this.anyoNacimiento = anyoNacimiento;
+		this.cuentasBancarias = cuentasBancarias;
+		this.roles = roles;
+	}
+
+	public Usuario() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Usuario(
+			@NotEmpty(message = "El nombre es obligatorio") @Size(min = 4, max = 12, message = "el tamaño debe ser entre 4 y 12") String nombre,
+			@Size(max = 50) String password) {
+		super();
+		this.nombre = nombre;
 		this.password = password;
 	}
 	

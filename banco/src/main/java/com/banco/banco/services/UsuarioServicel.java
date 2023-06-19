@@ -35,6 +35,9 @@ public interface UsuarioServicel {
 	 */
 	public List<Usuario> obtenerPorNombre(String nombre);
 	
+	public Usuario obtenerPorNombreU(String nombre);
+
+	
 	/**
 	 * Obtiene usuarios por año de nacimiento.
 	 *

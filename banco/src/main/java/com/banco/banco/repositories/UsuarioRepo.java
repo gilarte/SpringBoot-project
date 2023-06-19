@@ -26,9 +26,10 @@ public interface UsuarioRepo extends JpaRepository<Usuario, String>{
      *
      * @param nombre El nombre de los usuarios a buscar.
      * @return Una lista de usuarios que tienen el nombre especificado.
-     */
+     */	
 	List<Usuario> findByNombre(String nombre);
-	
+
+		
 	/**
      * Busca usuarios por sus apellidos.
      *

@@ -49,6 +49,12 @@ public class UsuarioServicelmpl implements UsuarioServicel{
 	        return usuarioRepository.findByNombre(nombre);
 	    }
 	    
+	    @Override
+		public Usuario obtenerPorNombreU(String nombre) {
+			// TODO Auto-generated method stub
+			return (Usuario) usuarioRepository.findByNombre(nombre);
+		}
+	    
 	    /**
 	     * Obtiene usuarios por apellidos.
 	     *
@@ -139,4 +145,6 @@ public class UsuarioServicelmpl implements UsuarioServicel{
 			usuarioRepository.delete(usuario);
 			
 		}
+
+		
 	}
