@@ -1,11 +1,10 @@
 <html>
 	<head>
-		<title>Gestor | Cuentas Bancarias</title>
+		<title>Gestor | Insertar proyecto</title>
+				  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👥</text></svg>">
-		  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👤</text></svg>">
 		<style>
 			.b-example-divider {
 			  height: 3rem;
@@ -70,11 +69,14 @@
 			<symbol id="busqueda" viewBox="0 0 16 16">
 				<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
 			</symbol>
+			<symbol id="volver" viewBox="0 0 16 16">
+				<path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+			</symbol>
 		</svg>
 		<main>
 			<header>
-				<!-- HEAD COMUN -->
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+				<!-- common header -->
+				<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand" href="/secure">Banco Turkticaret</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -84,10 +86,10 @@
         <li class="nav-item ">
           <a class="nav-link" href="/secure">Inicio</a>
         </li>
-        <li class="nav-item active">
+        <li class="nav-item ">
           <a class="nav-link" href="/showCuentasBancariasViewAdmin">Ver todas las cuentas</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item active">
           <a class="nav-link" href="/showCuentasBancariasOperacionesViewAdmin">Operaciones</a>
         </li>
         <li class="nav-item">
@@ -99,80 +101,56 @@
       </ul>
     </div>
   </nav><br><br><br>
+				<!-- end of common header -->
 				<!-- start of specific header -->
 				<div class="px-3 py-2 border-bottom mb-3">
 				  <div class="container d-flex flex-wrap justify-content-center">
 					<div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto mt-1">
-						<b class="text-black">Cuentas Bancarias</b>
+						Operaciones Bancarias > <b class="text-black">Hacer Operación Bancaria</b>
 					</div>
 					<div class="text-end">
-					  <a th:href="@{/newCuentaBancariaViewAdmin}"><button type="button" class="btn btn-success"><svg class="bi mx-auto me-1" width="16" height="16"><use xlink:href="#insertar"></use></svg> Añadir Cuenta Bancaria</button></a>
+					  <a th:href="@{/operacionesBancariasViewAdmin}"><button type="button" class="btn btn-primary"><svg class="bi mx-auto me-1" width="16" height="16"><use xlink:href="#volver"></use></svg> Volver atrás</button></a>
 					</div>
 				  </div>
 				</div>
 				<!-- end of specific header -->
 			</header>
 			<div class="ms-5 me-5">
-				<!-- start of filtros -->
-				<div class="accordion" id="filtrosAccordion">
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="filtrosOpener">
-						  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filtrosContent" aria-expanded="true" aria-controls="filtrosContent">
-							Búsqueda
-						  </button>
-						</h2>
-						    <div id="filtrosContent" class="accordion-collapse collapse" aria-labelledby="filtrosOpener" data-bs-parent="#filtrosAccordion">
-							  <div class="accordion-body">
-								<form th:action="@{/actSearchCuentaBancaria}" th:object="${searchedCuentaBancaria}" method="POST">
-									<div class="form-group form-floating mb-3">
-										<input type="text" class="form-control" id="numeroCuenta" name="numeroCuenta" placeholder="Numéro de la cuenta">
-										<label for="numeroCuenta">Número Cuenta Bancaria</label>
-									</div>
-									<div class="form-group form-floating mb-3">
-										<input type="date" class="form-control" id="fechaCreacion" name="fechaCreacion" placeholder="01/01/1990">
-										<label for="fechaCreacion">Fecha de Creación</label>
-									</div>
-									<div class="d-flex flex-row-reverse bd-highlight">
-										<button type="submit" name="btnFiltrarCuentasBancarias" id="btnFiltrarCuentasBancarias" class="btn btn-dark text-white"><svg class="bi mx-auto me-1" width="16" height="16"><use xlink:href="#busqueda"></use></svg> Buscar</button>
-									</div>
-								</form>
-							  </div>
-							</div>
+				<!-- start of insertar -->
+				<form th:action="@{/actAddOperacionBancariaAdmin}" th:object="${newOperacionBancaria}" method="POST">
+					<div class="form-group form-floating mb-3">
+					  <select class="form-select" id="tipoOperacion" name="tipoOperacion" required>
+					    <option value="" selected disabled hidden>Selecciona el tipo de operación</option>
+					    <option th:each="tipo : ${valores}" th:value="${tipo}" th:text="${tipo}"></option>
+					  </select>
+					  <label for="tipoOperacion">Tipo Operación</label>
 					</div>
-				</div>
-				<!-- end of filtros -->
-				<hr>				
-				<!-- start of tabla -->
-				<table class="table table-striped table-hover table-bordered table-sm">
-				  <thead>
-					<tr>
-					  <th scope="col">Número de cuenta</th>
-					  <th scope="col">Saldo</th>
-					  <th scope="col"><abbr title="Formato yyyy-MM-dd">Fecha de creación</abbr></th>
-					  <th scope="col">Opciones</th>
-					</tr>
-				  </thead>
-				  <tbody>
-					<th:block th:each="cuentaBancaria : ${cuentasBancariasListView}">
-						<tr>
-						  <td scope="row" th:text="${cuentaBancaria.numeroCuenta}" />
-						  <td th:text="${cuentaBancaria.saldo}" />
-						  <td th:text="${cuentaBancaria.fechaCreacion}" />
-						  <td>
-							<a style="text-decoration:none;" th:href="@{/showCuentaBancariaUsuariosAdmin(numeroCuenta=${cuentaBancaria.numeroCuenta})}"><button type="button" class="btn btn-secondary mt-2 position-relative"><svg class="bi mx-auto me-1" width="16" height="16"><use xlink:href="#usuarios"></use></svg> Ver integrantes
-								  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark" th:text="${cuentaBancaria.usuarios.size()}"></span></button>
-						  	</a>
-							<a th:href="@{/showCuentaBancariaModAdmin(numeroCuenta=${cuentaBancaria.numeroCuenta})}"><button type="button" class="btn btn-primary ms-3 mt-2"><svg class="bi mx-auto me-1" width="16" height="16"><use xlink:href="#modificar"></use></svg> Modificar</button></a>
-							<a th:href="@{/actDropCuentaBancariaAdmin(numeroCuenta=${cuentaBancaria.numeroCuenta})}"><button id="btnDropCuentaBancaria" name="numeroCuenta" th:value="${cuentaBancaria.numeroCuenta}" class="btn btn-danger ms-3 mt-2"><svg class="bi mx-auto me-1" width="16" height="16"><use xlink:href="#eliminar"></use></svg> Eliminar</button></a>
-						  </td>
-						</tr>
-					</th:block>
-				  </tbody>
-				</table>
-				<!-- end of tabla -->
+					<div class="form-group form-floating mb-3">
+						<input type="date" class="form-control" id="fechaOperacion" placeholder="01/01/1990" name="fechaOperacion" required>
+						<label for="fechaOperacion">Fecha de operación</label>
+					</div>
+					<div class="form-group form-floating mb-3">
+						<input type="text" class="form-control" id="cantidadInvolucrada" placeholder="cantidadInvolucrada" name="cantidadInvolucrada" required>
+						<label for="cantidadInvolucrada">Cantidad Involucrada</label>
+					</div>
+					<div class="form-group form-floating mb-3">
+						<input type="text" class="form-control" id="numeroCuentaInvolucrada" name="numeroCuentaInvolucrada" th:value="${numeroCuenta}" readonly>
+						<label for="numeroCuentaInvolucrada">Número de Cuenta Involucrada</label>
+					</div>
+					<div class="form-group form-floating mb-3">
+					    <select class="form-control" id="usuario" name="usuario" path="usuario.usuarioNIF" required>
+						    <option value="" selected disabled hidden>Selecciona un usuario</option>
+						    <option th:each="usuario : ${listaUsuarios}" th:value="${usuario.NIF}" th:text="${usuario.NIF}"></option>
+						</select>
+					    <label for="usuario">Usuario</label>
+					</div>
+					<div class="d-flex flex-row-reverse bd-highlight">
+						<button type="submit" name="btnInsertarOperacionBancaria" id="btnInsertarOperacionBancaria" class="btn btn-success text-white"><svg class="bi mx-auto me-1" width="16" height="16"><use xlink:href="#insertar"></use></svg> Insertar Operación Bancaria</button>
+					</div>
+				</form>
+			</div>
+				<!-- end of insertar -->
 				<!-- start of footer -->
-				<footer>
-				</footer>
 				<!-- end of footer -->
 			</div>
 		</main>

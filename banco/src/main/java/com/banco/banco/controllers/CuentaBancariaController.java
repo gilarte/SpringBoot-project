@@ -77,7 +77,7 @@ public class CuentaBancariaController {
 		model.addAttribute("cuentasBancariasListView", listaCuentasBancarias);
 		logger.info("Este es el nif logueado: "+JpaUserDetailsService.AuthNif);
 
-		return "cuentaBancaria";
+		return "secureCuentas";
 	}
 
 	/**
@@ -95,6 +95,16 @@ public class CuentaBancariaController {
 		model.addAttribute("cuentaBancariaToMod", cuentaBancariaToMod);
 
 		return "cuentaBancariaModificar";
+	}
+	@GetMapping("/showCuentaBancariaModAdmin")
+	public String mostrarModProyectoAdmin(@RequestParam String numeroCuenta, Model model) {
+		// Obtención de empleado a modificar
+		final CuentaBancaria cuentaBancariaToMod = cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta);
+
+		// Carga de datos al modelo
+		model.addAttribute("cuentaBancariaToMod", cuentaBancariaToMod);
+
+		return "secureCuentasModificar";
 	}
 	
 
@@ -117,6 +127,20 @@ public class CuentaBancariaController {
 		model.addAttribute("usuariosElegibles", usuariosElegibles);
 
 		return "cuentaBancariaIntegrantes";
+	}
+	@GetMapping("/showCuentaBancariaUsuariosAdmin")
+	public String mostrarCuentasBancariasUsuariosAdmin(@RequestParam String numeroCuenta, Model model) {
+
+		// Obtención de proyecto
+		final CuentaBancaria cuentaBancaria = cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta);
+		List<Usuario> usuariosElegibles = usuarioServicel.obtenerUsuarios();
+		usuariosElegibles.removeAll(cuentaBancaria.getUsuarios());
+		
+		// Carga de datos al modelo
+		model.addAttribute("cuentaBancaria", cuentaBancaria);
+		model.addAttribute("usuariosElegibles", usuariosElegibles);
+
+		return "secureCuentasIntegrantes";
 	}
 	
 	/**
@@ -168,6 +192,22 @@ public class CuentaBancariaController {
 		}
 		return "redirect:showCuentasBancariasView";
 	}
+	@PostMapping("/actAddCuentaBancariaAdmin")
+	private String insertarProyectoAdmin(@Valid @ModelAttribute CuentaBancaria newCuentaBancaria, BindingResult result)
+			throws Exception {
+		if (result.hasErrors()) {
+			throw new Exception("Parámetros de proyecto erróneos");
+		} else {
+			//añadimos a esa nueva cuenta el usuario que la ha creado
+			List<Usuario> aux = new ArrayList<>();
+			aux.add(usuarioServicel.obtenerPorNIF(JpaUserDetailsService.AuthNif));
+			newCuentaBancaria.setUsuarios(aux);
+
+			// Se añade la nueva cuenta
+			cuentaBancariaServicel.insertarCuentaBancaria(newCuentaBancaria);
+		}
+		return "redirect:showCuentasBancariasViewAdmin";
+	}
 
 	/**
 	 * Elimina una cuenta bancaria.
@@ -179,6 +219,11 @@ public class CuentaBancariaController {
 	public String eliminarCuentaBancaria(@RequestParam String numeroCuenta, Model model) {
 		cuentaBancariaServicel.eliminarCunetaBancaria(cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta));
 		return "redirect:showCuentasBancariasView";
+	}
+	@GetMapping("/actDropCuentaBancariaAdmin")
+	public String eliminarCuentaBancariaAdmin(@RequestParam String numeroCuenta, Model model) {
+		cuentaBancariaServicel.eliminarCunetaBancaria(cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta));
+		return "redirect:showCuentasBancariasViewAdmin";
 	}
 
 	/**

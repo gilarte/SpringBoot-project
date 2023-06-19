@@ -64,6 +64,10 @@ public class SystemController {
 	public String redirectToCuentaBancariaController() {
 		return "redirect:showCuentasBancariasView";
 	}
+	 @GetMapping("/cuentasBancariasViewAdmin")
+		public String redirectToCuentaBancariaControllerAdmin() {
+			return "redirect:showCuentasBancariasViewAdmin";
+		}
 
 	 /**
 	 * Redirecciona a la plantilla de inserción de cuenta bancaria.
@@ -72,6 +76,10 @@ public class SystemController {
 	public String redirectToNewCuentaBancariaTemplate() {
 		return "cuentaBancariaInsertar";
 	}
+	 @GetMapping("/newCuentaBancariaViewAdmin")
+		public String redirectToNewCuentaBancariaTemplateAdmin() {
+			return "secureCuentasInsertar";
+		}
 	
 	 /**
 	 * Redirecciona a la plantilla de inserción de operación bancaria.
@@ -88,6 +96,10 @@ public class SystemController {
 	public String redirectToOperacionancariaController() {
 		return "redirect:showCuentasBancariasOperacionesView";
 	}
+	 @GetMapping("/operacionesBancariasViewAdmin")
+		public String redirectToOperacionancariaControllerAdmin() {
+			return "redirect:showCuentasBancariasOperacionesViewAdmin";
+		}
 
 	 	/**
 		 * Redirecciona a la plantilla de inserción de operación bancaria.
@@ -109,6 +121,21 @@ public class SystemController {
 			model.addAttribute("valores", operacionBancaria.getTipoOperacion().values());
 			model.addAttribute("numeroCuenta", cuentaBancaria.getNumeroCuenta());
 			return "operacionBancariaInsertar";
+		}
+		@SuppressWarnings("static-access")
+		@GetMapping("/newOperacionBancariaViewAdmin")
+		public String redirectToNewOperacionBancariaTemplateAdmin(@RequestParam String numeroCuenta, Model model) {
+			final CuentaBancaria cuentaBancaria = cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta);
+			
+			List<Usuario> usuariosElegibles = usuarioServicel.obtenerUsuarios();
+			usuariosElegibles.removeAll(cuentaBancaria.getUsuarios());
+			
+			OperacionBancaria operacionBancaria = new OperacionBancaria();
+			
+			model.addAttribute("listaUsuarios", cuentaBancaria.getUsuarios());
+			model.addAttribute("valores", operacionBancaria.getTipoOperacion().values());
+			model.addAttribute("numeroCuenta", cuentaBancaria.getNumeroCuenta());
+			return "secureOperacionBancariaInsertar";
 		}
 
 }

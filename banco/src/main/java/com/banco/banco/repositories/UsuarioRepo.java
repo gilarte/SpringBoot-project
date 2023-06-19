@@ -13,6 +13,9 @@ import com.banco.banco.models.Usuario;
  */
 public interface UsuarioRepo extends JpaRepository<Usuario, String>{
 	
+	// Método para obtener todos los usuarios
+    List<Usuario> findAll();
+	
 	/**
      * Busca un usuario por su NIF.
      *

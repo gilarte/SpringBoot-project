@@ -58,6 +58,13 @@ public class OperacionBancariaController {
 
 		return "operacionBancaria";
 	}
+	@GetMapping("/showCuentasBancariasOperacionesViewAdmin")
+	public String mostrarCuentasBancariasAdmin(Model model) {
+		final List<CuentaBancaria> listaCuentasBancarias = cuentaBancariaServicel.obtenerCuentasBancarias();
+		model.addAttribute("cuentasBancariasListView", listaCuentasBancarias);
+
+		return "secureOperaciones";
+	}
 	
 	/**
 	 * Muestra la vista de operaciones bancarias para una cuenta bancaria específica.
@@ -76,6 +83,18 @@ public class OperacionBancariaController {
 		model.addAttribute("listaOperaciones", operacionesBancarias);
 
 		return "cuentaBancariaOperacionBancaria";
+	}
+	@GetMapping("/showOperacionBancariaCuentasBancariasAdmin")
+	public String mostrarProyectoEmpleadosAdmin(@RequestParam String numeroCuenta, Model model) {
+		final CuentaBancaria cuentaBancaria = cuentaBancariaServicel.obtenerPorNumeroCuenta(numeroCuenta);
+		
+		List<OperacionBancaria> operacionesBancarias = operacionBancariaServicel.obtenerPorNumeroCuentas(numeroCuenta);
+		
+		// Carga de datos al modelo
+		model.addAttribute("cuentaBancaria", cuentaBancaria);
+		model.addAttribute("listaOperaciones", operacionesBancarias);
+
+		return "secureCuentaBancariaOperacionBancaria";
 	}
 	
 	
@@ -105,5 +124,24 @@ public class OperacionBancariaController {
 			}
 		}
 		return "redirect:showCuentasBancariasOperacionesView";
+	}
+	@PostMapping("/actAddOperacionBancariaAdmin")
+	private String insertarProyectoAdmin(@Valid @ModelAttribute OperacionBancaria newOperacionBancaria, @RequestParam("usuario") String usuarioNIF, BindingResult result) throws Exception {
+		if (result.hasErrors()) {
+			throw new Exception("Parámetros de la operacion bancaria erróneos");
+		} else {
+			if(newOperacionBancaria.getTipoOperacion() == TipoOperacion.Ingresar) {
+				CuentaBancaria cuentaBancaria = cuentaBancariaServicel.obtenerPorNumeroCuenta(newOperacionBancaria.getNumeroCuentaInvolucrada());
+				cuentaBancaria.setSaldo(cuentaBancaria.getSaldo()+ newOperacionBancaria.getCantidadInvolucrada());
+				operacionBancariaServicel.insertarOperacionBancaria(newOperacionBancaria);
+			}
+			
+			if(newOperacionBancaria.getTipoOperacion() == TipoOperacion.Retirar) {
+				CuentaBancaria cuentaBancaria = cuentaBancariaServicel.obtenerPorNumeroCuenta(newOperacionBancaria.getNumeroCuentaInvolucrada());
+				cuentaBancaria.setSaldo(cuentaBancaria.getSaldo() - newOperacionBancaria.getCantidadInvolucrada());
+				operacionBancariaServicel.insertarOperacionBancaria(newOperacionBancaria);
+			}
+		}
+		return "redirect:showCuentasBancariasOperacionesViewAdmin";
 	}
 }
